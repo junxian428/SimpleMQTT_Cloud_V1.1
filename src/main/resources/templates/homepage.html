@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="img/25231.png" type="image/x-icon">
+    <title>Login Page</title>
+</head>
+<body>
+    <div class="p-of-page"></div>
+    
+    <div class="p-login-sec">
+        <div class="container">
+            <div class="login-sec">
+                <div class="cont-media">
+                    <div class="p-logo">
+                        <img class="logo" src="img/25231.png" alt="SEO">
+                    </div>
+                    <div class="p-form">
+                        <form class="form" action="#">
+                            <input class="e-mail-inpt" type="text" placeholder="Enter Username">
+                            <br>
+                            <input class="pass-inpt" type="password" placeholder="Enter password">
+                            <br>
+                            <div class="l-parent">
+                                <label class="shpass">Show password</label>
+                                <input class="chk-box" type="checkbox" id="show-pass">
+                            </div>
+                            <br>
+                            <input class="submit" type="submit" value="Submit">
+                        </form>
+                        <div class="p-border">
+                            <div class="border"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.form').addEventListener('submit', function(event) {
+                event.preventDefault();
+        
+                var username = document.querySelector('.e-mail-inpt').value;
+                var password = document.querySelector('.pass-inpt').value;
+        
+                // You can add additional validation here if needed
+        
+                // Send the form data to the server
+                fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password)
+                })
+                .then(response => {
+                        if (response.ok) {
+                            return response.text();
+                        } else {
+                            alert('Login failed. Please check your credentials.');
+                            throw new Error('Network response was not ok');
+                        }
+                    })
+                    .then(data => {
+                       // console.log(data); // Print the response body content
+                        alert(data);
+                        sessionStorage.setItem('loginSession', data); // Save data to session storage
+                        window.location.href = '/admin?id='+ data;
+                    })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+        </script>
+        
+
+    <script src="js/jquery-3.2.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

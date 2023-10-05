@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoboCloud Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+          table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+             /* Styling for the grass green alert button */
+
+             /* Styling for the orange alert button */
+.orange-add-button {
+  padding: 10px 20px;
+  background-color: #FFA500; /* Orange color code */
+  color: white;
+  border: 2px solid #FF8C00; /* Slightly darker shade of orange for the border */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* On hover effect */
+.orange-add-button:hover {
+  background-color: #FF8C00; /* Slightly darker shade of orange on hover */
+}
+
+/* On click effect */
+.orange-add-button:active {
+  background-color: #FF4500; /* Darker shade of orange on click */
+}
+
+
+
+      .grass-green-add-button {
+        padding: 10px 20px;
+        background-color: #3CB371; /* Use your preferred grass green color code */
+        color: white;
+        border: 2px solid #2E8B57; /* Use a slightly darker shade of grass green for the border */
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      
+      /* On hover effect */
+      .grass-green-add-button:hover {
+        background-color: #2E8B57; /* Use a slightly darker shade of grass green on hover */
+      }
+      
+      /* On click effect */
+      .grass-green-add-button:active {
+        background-color: #228B22; /* Use a darker shade of grass green on click */
+      }
+  
+/* Styling for the ocean blue alert button */
+.ocean-blue-edit-button {
+padding: 10px 20px;
+background-color: #007BAC; /* Use your preferred ocean blue color code */
+color: white;
+border: 2px solid #005A80; /* Use a slightly darker shade of ocean blue for the border */
+border-radius: 5px;
+cursor: pointer;
+font-size: 16px;
+}
+
+/* On hover effect */
+.ocean-blue-edit-button:hover {
+background-color: #005A80; /* Use a slightly darker shade of ocean blue on hover */
+}
+
+/* On click effect */
+.ocean-blue-edit-button:active {
+background-color: #00416A; /* Use a darker shade of ocean blue on click */
+}
+      .jwt-token {
+    display: inline-block;
+    max-width: 200px; /* Adjust the value as needed */
+    word-break: break-all;
+}
+
+.toggle {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.toggle-switch {
+  display: inline-block;
+  background: #ccc;
+  border-radius: 16px;
+  width: 58px;
+  height: 32px;
+  position: relative;
+  vertical-align: middle;
+  transition: background 0.25s;
+}
+.toggle-switch:before, .toggle-switch:after {
+  content: "";
+}
+.toggle-switch:before {
+  display: block;
+  background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  transition: left 0.25s;
+}
+.toggle:hover .toggle-switch:before {
+  background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+.toggle-checkbox:checked + .toggle-switch {
+  background: #56c080;
+}
+.toggle-checkbox:checked + .toggle-switch:before {
+  left: 30px;
+}
+
+.toggle-checkbox {
+  position: absolute;
+  visibility: hidden;
+}
+
+.toggle-label {
+  margin-left: 5px;
+  position: relative;
+  top: 2px;
+}
+
+/* <select> styles */
+    select {
+  /* Reset */
+  border: 0;
+  outline: 0;
+  font: inherit;
+  /* Personalize */
+  width: 10rem;
+  padding: 1rem 4rem 1rem 1rem;
+  background: var(--arrow-icon) no-repeat right 0.8em center / 1.4em,
+    linear-gradient(to left, var(--arrow-bg) 3em, var(--select-bg) 3em);
+  color: white;
+  border-radius: 0.25em;
+  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  /* Remove IE arrow */
+  &::-ms-expand {
+    display: none;
+  }
+  /* Remove focus outline */
+  &:focus {
+    outline: none;
+  }
+  /* <option> colors */
+  option {
+    color: inherit;
+    background-color: var(--option-bg);
+  }
+}
+
+.lamp-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lamp {
+  display: flex;
+}
+
+.bit {
+  width: 20px;
+  height: 20px;
+  margin: 2px;
+  border-radius: 50%;
+}
+
+.on {
+  background-color: green;
+}
+
+.off {
+  background-color: gray;
+}
+
+
+
+        .dropdown-content {
+          margin-top:50px;
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 100px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 50;
+        }
+
+        .dropdown-content a {
+          
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            z-index: 50;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container" id="top">
+        <header>
+            <img class="logo" src="ROBOMATICS.png" alt="logo" style="padding-left:20px;">
+            <div class="header-nav">
+                <div class="notification">
+                    <img class="bell" id="js-bell" src="icons/icon-bell.svg" alt="bell">
+                    <p class="badge" id="badge-1"><strong class="badge-num">1</strong></p>
+                    <p class="badge" id="badge-2"><strong class="badge-num">2</strong></p>
+                    <p class="badge" id="badge-3"><strong class="badge-num">3</strong></p>
+                    <p class="badge" id="badge-4"><strong class="badge-num">4</strong></p>
+                    <ul class="notification-menu" id="notif-menu" style="display: none;">
+                        <li id="header-li"><strong>Notifications</strong></li>
+                        <li class="popuptext" id="li-1">
+                            <img class="img" src="images/member-1.jpg" alt="member image">
+                            <h3 class="name">Victoria Chambers</h3>
+                            <p class="comment">What are your plans for tonight?</p>
+                            <button class="btn-notif" type="button" name="delete">X</button>
+                        </li>
+                        <li class="popuptext" id="li-2">
+                            <img class="img" src="images/member-2.jpg" alt="member image">
+                            <h3 class="name">Dale Byrd</h3>
+                            <p class="comment">Hey what's up?</p>
+                            <button class="btn-notif" type="button" name="delete">X</button>
+                        </li>
+                        <li class="popuptext" id="li-3">
+                            <img class="img" src="images/member-3.jpg" alt="member image">
+                            <h3 class="name">Dawn Wood</h3>
+                            <p class="comment">Just sent you a voice message</p>
+                            <button class="btn-notif" type="button" name="delete">X</button>
+                        </li>
+                        <li class="popuptext" id="li-4">
+                            <img class="img" src="images/member-4.jpg" alt="member image">
+                            <h3 class="name">Dan Oliver</h3>
+                            <p class="comment">Are you going to the game next week?</p>
+                            <button class="btn-notif" type="button" name="delete">X</button>
+                        </li>
+                        <li class="popuptext popupalert" id="alert-bell" style="display: none;">
+                            <h3>No new notifications</h3>
+                        </li>
+                    </ul>
+                </div>
+                <span class="border-notif"></span>
+                <img class="profile-pic" src="images/josh.jpg" alt="User Avatar">
+                <h3 class="profile-name">Administrators</h3>
+            
+            </div>
+        </header>
+        <nav>
+            <div class="side-nav" id="js-nav">
+                <a href="#top" class="nav-icons nav-selected" id="btn-top"><img src="icons/icon-dashboard.svg" alt="dashboard"></a>
+                <a href="#traffic" class="nav-icons" id="btn-traffic"><img src="icons/icon-visits.svg" alt="visits"></a>
+                <a href="#activity" class="nav-icons" id="btn-activity"><img src="icons/icon-members.svg" alt="members"></a>
+                <a href="#settings" class="nav-icons" id="btn-settings"><img src="icons/icon-settings.svg" alt="settings"></a>
+            </div>
+        </nav>
+        <main class="grid-main">
+
+            <div class="grid-1">
+                <div class="dashboard-flex">
+                    <h2 class="dashboard">Lynx Dash Alert Pro</h2>
+                    <!---
+                    <form class="search-border" action="index.html" method="POST">
+                        <input type="search" class="search-top" id="search-top" placeholder="Search">
+                    </form>
+                -->
+                </div>
+                 <!---
+                <div class="btn-delete-flex" id="js-alert">
+                    <p class="alert-text"><strong>Alert! </strong>You can hide me.</p>
+                    <button class="btn-delete" id="js-btn" type="button" name="delete"><strong>x</strong></button>
+                </div>
+            -->
+            <br>
+                  <div id="app">
+             
+                    <br>
+                    Session ID: <p>{{ latestMessage }}</p>
+                    <br>
+                    <h3>MQTT Test Client & Server</h3>
+                    <form v-on:submit.prevent>
+                      <label for="user">MQTT Test Client:</label>
+                      <input type="text" id="user" v-model="user" />
+                      <button v-on:click="connect" :disabled="connected">Connect</button>
+                      <button v-on:click="disconnect" :disabled="!connected">Disconnect</button>
+                      <button v-on:click="sendData">Send</button>
+                    </form>
+                    <br>
+                    <br>
+                    <br>
+                    <h3>SSL generate</h3>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <h3>Create Topic</h3>
+                  
+                  </div>
+                  <br>
+
+            </div>
+            <div class="grid-2">
+                <table>
+                    <tr>
+                        <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">Username</th>
+                        <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">User Plan</th>
+                        <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">Current Connected Devices</th>
+                        <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">Max Connection</th>
+                        <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">Temporary Token</th>
+                        <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">Actions</th> <!-- Add a new column for the button -->
+                    </tr>
+                    <tr>
+                        <td>junxian428</td>
+                        <td>Free</td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>
+                            <span class="jwt-token">
+                                eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1NTU1IiwiaWF0IjoxNjk2Mjk4NDQxLCJleHAiOjE2OTYzODQ4NDF9.B_ybwZbKAJAr80GPF7UUVg0G8QECJKKby2IIkaRjj12mf2ZIcHkrlVG-yPHeuxCt8mj-ZaONYF24sC-Dl-tpxw
+                            </span>
+                        </td>
+                        <td>
+                            <button class="copy-token-btn orange-add-button">Copy Token</button>
+                            <br>
+                            <br>
+                            <button class="copy-token-btn grass-green-add-button">Regenerate Token</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+      
+            
+
+            <div class="grid-5" id="traffic">
+                <h3>IoT Device List</h3>
+                <table>
+                    <tr style="font-size:20px; ">
+                        <th >Device Name</th>
+                        <th>Description</th>
+                        <th>Trigger selection</th>
+                        <th style="background-color: rgb(226, 14, 14);">High</th>
+                        <th style="background-color: #007BAC;">Low</th>
+                        <th>Credential Token</th>
+                        <th>Action</th>
+                        <th style="background-color: black; color: white;">Status</th>
+                    </tr>
+                    <tr>
+                        <td>Row 1, Cell 2</td>
+                        <td>Row 1, Cell 2</td>
+                        <td style=" background: linear-gradient(35deg, red, purple)">
+                            <select>
+                                <option selected value="0">Pure CSS Select</option>
+                                <option value="1">No Wrapper</option>
+                                <option value="2">No JS</option>
+                                <option value="3">Nice!</option>
+                              </select>
+                              
+                              <br>
+                              <br>
+                              Normalize Option:
+                              <br>
+                              <label class="toggle">
+                            <input class="toggle-checkbox" type="checkbox" checked>
+                            <div class="toggle-switch"></div>
+                            <span class="toggle-label"></span>
+                          </label>
+                        </td>
+                        <td>Row 1, Cell 3</td>
+                        <td>Row 1, Cell 3</td>
+
+                        <td>
+                            <span class="jwt-token">
+                                eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1NTU1IiwiaWF0IjoxNjk2Mjk4NDQxLCJleHAiOjE2OTYzODQ4NDF9.B_ybwZbKAJAr80GPF7UUVg0G8QECJKKby2IIkaRjj12mf2ZIcHkrlVG-yPHeuxCt8mj-ZaONYF24sC-Dl-tpxw
+                            </span>
+                        </td>
+                        <td> 
+                            <button class="copy-token-btn orange-add-button">Copy Token</button>
+                            <br>
+                            <br>
+                            <button type="submit" class=" grass-green-add-button" @click="SubmitAnswer">Regenerate Token</button>
+                        <br>
+                        <br>
+                        <button type="submit" class=" ocean-blue-edit-button" @click="SubmitAnswer">Update Device</button>
+                    </td>
+                            <td>  
+                                <p>Current Value: </p>
+
+                                <div class="lamp-container">
+                                <div class="lamp">
+                                  <div class="bit on"></div>
+                                  <div class="bit off"></div>
+                                </div>
+                  </div>
+                </td>
+
+                    </tr>
+                    <tr>
+                        <td>Row 2, Cell 2</td>
+                        <td>Row 2, Cell 3</td>
+                        <td style=" background: linear-gradient(35deg, red, purple)">
+                            <select>
+                                <option selected value="0">Pure CSS Select</option>
+                                <option value="1">No Wrapper</option>
+                                <option value="2">No JS</option>
+                                <option value="3">Nice!</option>
+                              </select>
+                              
+                              <br>
+                              <br>
+                              Normalize Option:
+                              <br>
+                              <label class="toggle">
+                            <input class="toggle-checkbox" type="checkbox" checked>
+                            <div class="toggle-switch"></div>
+                            <span class="toggle-label"></span>
+                          </label>
+                        </td>
+                                     <td>Row 1, Cell 3</td>
+                        <td>Row 1, Cell 3</td>
+                        <td>   <span class="jwt-token">
+                            eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1NTU1IiwiaWF0IjoxNjk2Mjk4NDQxLCJleHAiOjE2OTYzODQ4NDF9.B_ybwZbKAJAr80GPF7UUVg0G8QECJKKby2IIkaRjj12mf2ZIcHkrlVG-yPHeuxCt8mj-ZaONYF24sC-Dl-tpxw
+                        </span></td>
+
+                        <td> 
+                            <button class="copy-token-btn orange-add-button">Copy Token</button>
+                            <br>
+                            <br>
+                             <button type="submit" class=" grass-green-add-button" @click="SubmitAnswer">Regenerate Token</button>
+                             <br>
+                             <br>
+                             <button type="submit" class=" ocean-blue-edit-button" @click="SubmitAnswer">Update Device</button>
+                            </td>
+                             <td>
+                                <p>Current Value: </p>
+                                <div class="lamp-container">
+                                              <div class="lamp">
+                                                <div class="bit on"></div>
+                                                <div class="bit off"></div>
+                                              </div>
+                                </div>
+                            </td>
+
+                    </tr>
+                    <tr>
+                        <td>Row 3, Cell 2</td>
+                        <td>Row 3, Cell 3</td>
+                        <td style=" background: linear-gradient(35deg, red, purple)">
+                            <select>
+                                <option selected value="0">Pure CSS Select</option>
+                                <option value="1">No Wrapper</option>
+                                <option value="2">No JS</option>
+                                <option value="3">Nice!</option>
+                              </select>
+                              
+                              <br>
+                              <br>
+                              Normalize Option:
+                              <br>
+                              <label class="toggle">
+                            <input class="toggle-checkbox" type="checkbox" checked>
+                            <div class="toggle-switch"></div>
+                            <span class="toggle-label"></span>
+                          </label>
+                        </td>                        <td>Row 1, Cell 3</td>
+                        <td>Row 1, Cell 3</td>
+                        <td>   <span class="jwt-token">
+                            eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1NTU1IiwiaWF0IjoxNjk2Mjk4NDQxLCJleHAiOjE2OTYzODQ4NDF9.B_ybwZbKAJAr80GPF7UUVg0G8QECJKKby2IIkaRjj12mf2ZIcHkrlVG-yPHeuxCt8mj-ZaONYF24sC-Dl-tpxw
+                        </span></td>
+
+                        <td>   <button class="copy-token-btn orange-add-button">Copy Token</button>
+                            <br>
+                            <br>
+                            <button type="submit" class=" grass-green-add-button" @click="SubmitAnswer">Regenerate Token</button>
+                        <br>
+                        <br>
+                        <button type="submit" class=" ocean-blue-edit-button" @click="SubmitAnswer">Update Device</button>
+                    </td>
+                            <td> 
+                                <p>Current Value: </p>
+
+                                <div class="lamp-container">
+                                <div class="lamp">
+                                  <div class="bit on"></div>
+                                  <div class="bit off"></div>
+                                </div>
+                  </div>
+                
+                </td>
+                    </tr>
+                </table>
+
+             
+            </div>
+
+          
+        
+        
+         
+        </main>
+    </div>
+    <script>
+//WebSocket
+	// Vue.js app
+var app = new Vue({
+  el: '#app',
+  data: {
+    user: '',
+    connected: false,
+    latestMessage: '',
+    errorMessage: '',
+    loginSession: '',
+    ws: null, // Added the ws property to store the WebSocket instance
+  },
+  methods: {
+    connect() {
+      this.ws = new WebSocket('ws://localhost:8787/user');
+      this.ws.onmessage = this.handleMessage;
+      this.connected = true;
+      var data = JSON.stringify({
+        'operation': 'Register',
+        'content': this.user,
+        'user': this.loginSession,
+        'session': this.latestMessage
+      });
+      this.ws.send(data);
+    },
+    disconnect() {
+      if (this.ws) {
+        this.ws.close();
+      }
+      this.connected = false;
+      console.log("WebSocket is disconnected");
+    },
+    reconnect() {
+      this.disconnect(); // Close the existing connection (if any)
+      this.connect(); // Attempt to establish a new connection
+    },
+    sendData() {
+      this.loginSession = sessionStorage.getItem('loginSession');
+      var data = JSON.stringify({
+        'operation': 'Search',
+        'content': this.user,
+        'user': this.loginSession,
+        'session': this.latestMessage
+      });
+      this.ws.send(data);
+    },
+    handleMessage(event) {
+      this.latestMessage = event.data;
+    },
+    handleError(event) {
+      this.errorMessage = 'WebSocket error occurred: ' + event.message;
+      console.error(this.errorMessage);
+    }
+  },
+  mounted() {
+    // Retrieve loginSession from sessionStorage
+    this.connect(); // Automatically connect when the component is mounted
+    this.loginSession = sessionStorage.getItem('loginSession');
+
+  
+  }
+});
+
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

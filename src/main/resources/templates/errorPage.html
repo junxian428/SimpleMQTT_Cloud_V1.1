@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Page</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .error-container {
+            margin-top: 100px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>404 - Page Not Found</h1>
+        <p>Oops! The page you requested could not be found.</p>
+        <img th:src="@{'/' + ${imageName}}" alt="Error animal" style="max-width: 300px; max-height: 300px;">
+
+    </div>
+</body>
+</html>

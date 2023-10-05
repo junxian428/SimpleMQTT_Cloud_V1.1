@@ -1,0 +1,41 @@
+CREATE TABLE user_table (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    token VARCHAR(255)
+);
+INSERT INTO user_table (username, password, token)
+VALUES ('junxian428', 'junxian428', 'junxian428');
+
+-- Create the plc_table
+CREATE TABLE plc_table (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255),
+    token VARCHAR(255),
+    status VARCHAR(50),
+    userid INT,
+    FOREIGN KEY (userid) REFERENCES user_table(id)
+);
+
+INSERT INTO plc_table (name, token, status, userid)
+VALUES ('PLC1', 'abc123', 'Active', 1);
+
+-- Create the address table
+CREATE TABLE address (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    plc_id INT,
+    description VARCHAR(255),
+    current_value INT,
+    high INT,
+    low INT,
+    booleanNormalize BOOLEAN,
+    FOREIGN KEY (plc_id) REFERENCES plc_table(id)
+);
+
+
+INSERT INTO address (plc_id, description, current_value, high, low, booleanNormalize)
+VALUES (1, 'Sensor A', 50, 100, 0, true);
+
+
+
+
