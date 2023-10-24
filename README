@@ -37,5 +37,48 @@ INSERT INTO address (plc_id, description, current_value, high, low, booleanNorma
 VALUES (1, 'Sensor A', 50, 100, 0, true);
 
 
+CREATE TABLE user_plan (
+    id INT PRIMARY KEY,
+    plan VARCHAR(255),
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES user_table(id)
+);
 
 
+INSERT INTO user_plan (id, plan, user_id)
+VALUES (2, 'Basic', 2);
+
+
+SELECT user_plan.plan
+FROM user_plan
+INNER JOIN user_table ON user_plan.user_id = user_table.id
+WHERE user_table.token = 'HOWENGYIN';
+
+
+CREATE TABLE iot_device (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+		 name VARCHAR(255),
+    description VARCHAR(255),
+    high VARCHAR(255),
+    low VARCHAR(255),
+    credential_token VARCHAR(255),
+    userid INT,
+    FOREIGN KEY (userid) REFERENCES user_table(id)
+);
+
+SELECT iot_device.*
+FROM iot_device
+INNER JOIN user_table ON iot_device.userid = user_table.id
+WHERE user_table.token = 'HOWENGYIN';
+
+
+
+CREATE TABLE user_topics (
+    id INT PRIMARY KEY,
+    user_id INT,
+    topic_name VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES user_table(id)
+);
+
+INSERT INTO user_topics (id, user_id,topic_name) VALUES (2,2, "pressure");
+INSERT INTO user_topics (id, user_id,topic_name) VALUES (3,2, "flowrate");

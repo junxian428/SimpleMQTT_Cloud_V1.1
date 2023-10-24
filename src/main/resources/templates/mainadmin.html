@@ -17,13 +17,91 @@
 
         th, td {
             border: 1px solid black;
-            padding: 8px;
+            padding: 7px;
             text-align: left;
         }
 
         th {
             background-color: #f2f2f2;
         }
+  /* Add this CSS to your stylesheet */
+  ::-webkit-scrollbar {
+        width: 30px; /* Adjust the width as needed */
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: #f1f1f1; /* Color of the track */
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #888; /* Color of the thumb */
+        border-radius: 6px; /* Rounded corners of the thumb */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #555; /* Color of the thumb on hover */
+    }
+        .custom-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.form-label, .form-input {
+  display: block;
+  padding-left:20px;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.form-input {
+  width: calc(80% - 20px);
+  height: 30px;
+  padding-left:20px;
+  margin-left:20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.custom-submit-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  padding-right:20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.custom-submit-button:hover {
+  background-color: #45a049;
+}
+
+
+.red-add-button {
+    padding: 10px 20px;
+    background-color: #FF6347; /* Change to your preferred red color code */
+    color: white;
+    border: 2px solid #FF4500; /* Use a slightly darker shade of red for the border */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* On hover effect */
+.red-add-button:hover {
+    background-color: #FF4500; /* Use a slightly darker shade of red on hover */
+}
+
+/* On click effect */
+.red-add-button:active {
+    background-color: #DC143C; /* Use a darker shade of red on click */
+}
+
 
              /* Styling for the grass green alert button */
 
@@ -69,6 +147,28 @@
       .grass-green-add-button:active {
         background-color: #228B22; /* Use a darker shade of grass green on click */
       }
+
+      .red-button {
+  padding: 10px 20px;
+  background-color: #FF0000; /* Red color code */
+  color: white;
+  border: 2px solid #990000; /* Slightly darker shade of red for the border */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* On hover effect */
+.red-button:hover {
+  background-color: #990000; /* Slightly darker shade of red on hover */
+}
+
+/* On click effect */
+.red-button:active {
+  background-color: #660000; /* Darker shade of red on click */
+}
+
+
   
 /* Styling for the ocean blue alert button */
 .ocean-blue-edit-button {
@@ -155,7 +255,7 @@ background-color: #00416A; /* Use a darker shade of ocean blue on click */
   outline: 0;
   font: inherit;
   /* Personalize */
-  width: 10rem;
+  width: 9rem;
   padding: 1rem 4rem 1rem 1rem;
   background: var(--arrow-icon) no-repeat right 0.8em center / 1.4em,
     linear-gradient(to left, var(--arrow-bg) 3em, var(--select-bg) 3em);
@@ -227,6 +327,21 @@ background-color: #00416A; /* Use a darker shade of ocean blue on click */
             background-color: #f1f1f1;
         }
 
+        .green-led {
+    display: inline-block;
+    width: 10px; /* Adjust the width and height as needed */
+    height: 10px;
+    background-color: green;
+    border-radius: 50%;
+}
+
+.red-led {
+    display: inline-block;
+    width: 10px; /* Adjust the width and height as needed */
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+}
 
 
     </style>
@@ -307,224 +422,233 @@ background-color: #00416A; /* Use a darker shade of ocean blue on click */
             -->
             <br>
                   <div id="app">
-             
+                    <table>
+                      <tr>
+                          <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">Username</th>
+                          <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">User Plan</th>
+                          <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">Current Connected Devices</th>
+                          <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">Max Connection</th>
+                          <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">Temporary Token</th>
+                          <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">Actions</th> <!-- Add a new column for the button -->
+                      </tr>
+                      <tr>
+                          <td>junxian428</td>
+                          <td th:text="${FreePlan}" ></td>
+                          <td th:text="${CurrentConnection}"></td>
+                          <td th:text="${MaximumConnection}"></td>
+                          <td>
+                              <span class="jwt-token" th:text="${CredentialToken}">
+                              </span>
+                          </td>
+                          <td>
+                              <button class="copy-token-btn orange-add-button">Copy Token</button>
+                              <br>
+                              <br>
+                              <button class="copy-token-btn grass-green-add-button">Regenerate Token</button>
+                          </td>
+                      </tr>
+                  </table>
                     <br>
-                    Session ID: <p>{{ latestMessage }}</p>
                     <br>
-                    <h3>MQTT Test Client & Server</h3>
-                    <form v-on:submit.prevent>
-                      <label for="user">MQTT Test Client:</label>
-                      <input type="text" id="user" v-model="user" />
-                      <button v-on:click="connect" :disabled="connected">Connect</button>
-                      <button v-on:click="disconnect" :disabled="!connected">Disconnect</button>
-                      <button v-on:click="sendData">Send</button>
+                    <br>
+                
+                    <br>
+                    <h3>MQTT Server & Client & Topic</h3>
+                    <form v-on:submit.prevent style="border: 2px solid black;">
+                      <label for="user"  style="font-size:20px;">WebSocket Server Connectivity: </label>
+                      <br>
+                      <label for="user"  style="font-size:20px;">Session ID: {{ latestMessage }}</label>
+                      <button v-on:click="connect" :disabled="connected" style="  padding: 10px 20px;" >Connect</button>
+                      <button v-on:click="disconnect" :disabled="!connected"  style="  padding: 10px 20px;   background-color: #FF0000; color: white;"  >Disconnect</button>
+                      <br>
+                      <br>
+                      <br>
+                      <u style="font-size: 20px;">MQTT Testing [Publish & Subscribe Data]</u>
+                      <br>
+                      <ol>
+                        <li>Publish Topic</li>
+                        <br>
+                        <label for="user"  style="font-size:20px;">MQTT Test Client Topic:</label>
+                        <input type="text" v-model="inputValue" style="height:30px" />
+                        <br>
+                        <label for="user"  style="font-size:20px;">MQTT Test Client Message:</label>
+                        <br>
+                        <textarea id="user" v-model="user" style="height:150px; width:100%; "></textarea>
+                        <br>
+                        <br>
+                        <div style=" display: flex; justify-content: flex-end; padding-right:20px;">
+                        <button v-on:click="sendData"  class="grass-green-add-button">Send</button>
+                        </div>
+                        <br>
+                        <li>Subscribe Topic</li>
+                        <br>
+                        <label for="user"  style="font-size:20px;">MQTT Test Subscriber Topic:</label>
+                        <input type="text" v-model="inputValueSubscribe" style="height:30px" />
+                        <button @click="subscribeToTopic" class="grass-green-add-button">Subscribe</button>
+
+                        <br>
+                        <label for="user"  style="font-size:20px;">MQTT Test Subscriber Topic List:</label>
+                        <br>
+                        <p>Received message from topic</p>
+                        <textarea id="user123" style="height:150px; width:100%;" readonly></textarea>
+                        <br>
+                        <h3>Subscribed Topics:</h3>
+                        
+                        <br>
+                        <br>
+                        <table id="MQTTTopicTable">
+                          <thead style="font-size:20px;">
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Topic Name</th>
+                                  <th>Actions</th>
+                              </tr>
+                          </thead>
+                          <tbody >
+                              <tr th:each="row : ${results}" style="font-size:20px;">
+                                  <td th:text="${row.user_topic_id}"></td>
+                                  <td th:text="${row.topic_name}"></td>
+                                  <td>
+                                    <button th:value="${row.user_topic_id}" th:id="${row.user_topic_id}" class="red-add-button" onclick="DeleteButtonInfo(this)">X</button>
+                                    
+                                </td>
+                                </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                      
+                      
+                   
+                      
+                        <br>
+                        <br>
+                        <!--<label th:text="${HelloWorld}" style="font-size:20px;"></label>/
+                        <input type="text" id="myInput" name="name" style="height: 30px; border-radius: 5px; ">
+                        <input type="submit" value="Create" class="grass-green-add-button">-->
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+
+                        <li style="font-size: 15px; color:black;">Manage IoT Devices</li>
+                        <br>
+                        <div style="background-color: #007BAC;">
+                          <div style="display: flex; justify-content: center; align-items: center;">
+                            <div style="color:white; font-size:20px; padding-top:20px;">Create IoT Device</div>
+                        </div>
+                        <label for="deviceName" class="form-label">Device Name:</label>
+                        <input type="text" v-model="deviceName" class="form-input"><br><br>
+                    
+                        <label for="description" class="form-label">Description:</label>
+                        <input type="text" v-model="description" class="form-input" ><br><br>
+                    
+                        <label for="high" class="form-label">High:</label>
+                        <input type="number" v-model="high" class="form-input" ><br><br>
+                    
+                        <label for="low" class="form-label">Low:</label>
+                        <input type="number" v-model="low" class="form-input"><br><br>
+                    
+                        <label for="credentialToken" class="form-label">Credential Token:</label>
+                        <input type="text" v-model="credentialToken" class="form-input" ><br><br>
+                    
+                        <div style="display: flex; justify-content: flex-end; padding-right: 20px;">
+                            <input type="button" value="Add Device" class="custom-submit-button" @click="submitForm">
+                        </div>
+                        <br>
+                        <br>
+
+
+                        </div>
+                        
+                        
+                        <br><br>
+                        <br>
+                        <h3>WhatsAPP API</h3>
+                        <br><br>
+                        <br>
+                        <h3>Telegram API</h3>
+                        <br><br>
+                        <br>
+
+                        <h2>IoT Device & Alarm Management</h2>
+                        <div style="overflow-x:auto;">
+                        <table id="IoTManagemetnDevice">
+                            <tr style="font-size:20px; ">
+                                <th >Device Name</th>
+                                <th>Description</th>
+                                <th>Trigger selection</th>
+                                <th style="background-color: rgb(226, 14, 14);">High</th>
+                                <th style="background-color: #007BAC;">Low</th>
+                                <th>Credential Token</th>
+                                <th>Action</th>
+                                <th style="background-color: black; color: white;">Status</th>
+                            </tr>
+                              <!-- Iterate through the devices -->
+                    <tr th:each="device : ${devices}">
+                                <td th:text="${device.deviceName}"></td>
+                                <td th:text="${device.description}"></td>
+                                <td th:text="${device.triggerSelection}"></td>
+                                <td th:text="${device.high}"></td>
+                                <td th:text="${device.low}"></td>
+                                <td th:text="${device.credentialToken}"></td>
+                                
+                                <td>
+                                  <button class="copy-token-btn orange-add-button">Copy Token</button>
+                                  <br>
+                                  <br>
+                                   <button type="submit" class=" grass-green-add-button" >Regenerate Token</button>
+                                   <br>
+                                   <br>
+                                   <button type="submit" class=" ocean-blue-edit-button" >Update Device</button>
+                                   <br>
+                                   <br>
+                                   <button class="red-button" @click="deleteDevice(device.id)">Delete Device</button>        
+                                </td>
+                                <td>  
+                                  <!--- <span th:if="${device.Status == 'Ok'}" class="green-led"></span><label  th:if="${device.Status == 'Ok'}">Online</label>
+                                <span th:if="${device.Status == 'Bad'}" class="red-led"></span><label  th:if="${device.Status == 'Bad'}">Offline</label>-->
+                              </td>
+        
+                            </tr>
+                       
+                        </table>
+                        <span th:each="pageNumber : ${#numbers.sequence(1, PageTotal+1)}" style="font-size:20px;">
+                          <button type="button" class="btn btn-link" onclick="getPageNumber(this)">
+                            <span th:text="${pageNumber}" style="display:inline;"></span></button>
+                          <span>&nbsp;|</span>
+                          
+                        </div>
+                        <br>
+                       
+                        <br>
+                      </ol>
+                     
+                      <br>
+                      <br>
                     </form>
                     <br>
                     <br>
                     <br>
-                    <h3>SSL generate</h3>
                     <br>
-                    <br>
-                    <br>
-                    <br>
-                    <h3>Create Topic</h3>
+
+                    <hr>
+                    <div>
+
+                   
+
+                    </div>
+      
                   
                   </div>
                   <br>
 
             </div>
             <div class="grid-2">
-                <table>
-                    <tr>
-                        <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">Username</th>
-                        <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">User Plan</th>
-                        <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">Current Connected Devices</th>
-                        <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">Max Connection</th>
-                        <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">Temporary Token</th>
-                        <th style="	background: linear-gradient(45deg, #49a09d, #5f2c82)">Actions</th> <!-- Add a new column for the button -->
-                    </tr>
-                    <tr>
-                        <td>junxian428</td>
-                        <td>Free</td>
-                        <td>0</td>
-                        <td>1</td>
-                        <td>
-                            <span class="jwt-token">
-                                eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1NTU1IiwiaWF0IjoxNjk2Mjk4NDQxLCJleHAiOjE2OTYzODQ4NDF9.B_ybwZbKAJAr80GPF7UUVg0G8QECJKKby2IIkaRjj12mf2ZIcHkrlVG-yPHeuxCt8mj-ZaONYF24sC-Dl-tpxw
-                            </span>
-                        </td>
-                        <td>
-                            <button class="copy-token-btn orange-add-button">Copy Token</button>
-                            <br>
-                            <br>
-                            <button class="copy-token-btn grass-green-add-button">Regenerate Token</button>
-                        </td>
-                    </tr>
-                </table>
+             
             </div>
       
             
 
-            <div class="grid-5" id="traffic">
-                <h3>IoT Device List</h3>
-                <table>
-                    <tr style="font-size:20px; ">
-                        <th >Device Name</th>
-                        <th>Description</th>
-                        <th>Trigger selection</th>
-                        <th style="background-color: rgb(226, 14, 14);">High</th>
-                        <th style="background-color: #007BAC;">Low</th>
-                        <th>Credential Token</th>
-                        <th>Action</th>
-                        <th style="background-color: black; color: white;">Status</th>
-                    </tr>
-                    <tr>
-                        <td>Row 1, Cell 2</td>
-                        <td>Row 1, Cell 2</td>
-                        <td style=" background: linear-gradient(35deg, red, purple)">
-                            <select>
-                                <option selected value="0">Pure CSS Select</option>
-                                <option value="1">No Wrapper</option>
-                                <option value="2">No JS</option>
-                                <option value="3">Nice!</option>
-                              </select>
-                              
-                              <br>
-                              <br>
-                              Normalize Option:
-                              <br>
-                              <label class="toggle">
-                            <input class="toggle-checkbox" type="checkbox" checked>
-                            <div class="toggle-switch"></div>
-                            <span class="toggle-label"></span>
-                          </label>
-                        </td>
-                        <td>Row 1, Cell 3</td>
-                        <td>Row 1, Cell 3</td>
-
-                        <td>
-                            <span class="jwt-token">
-                                eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1NTU1IiwiaWF0IjoxNjk2Mjk4NDQxLCJleHAiOjE2OTYzODQ4NDF9.B_ybwZbKAJAr80GPF7UUVg0G8QECJKKby2IIkaRjj12mf2ZIcHkrlVG-yPHeuxCt8mj-ZaONYF24sC-Dl-tpxw
-                            </span>
-                        </td>
-                        <td> 
-                            <button class="copy-token-btn orange-add-button">Copy Token</button>
-                            <br>
-                            <br>
-                            <button type="submit" class=" grass-green-add-button" @click="SubmitAnswer">Regenerate Token</button>
-                        <br>
-                        <br>
-                        <button type="submit" class=" ocean-blue-edit-button" @click="SubmitAnswer">Update Device</button>
-                    </td>
-                            <td>  
-                                <p>Current Value: </p>
-
-                                <div class="lamp-container">
-                                <div class="lamp">
-                                  <div class="bit on"></div>
-                                  <div class="bit off"></div>
-                                </div>
-                  </div>
-                </td>
-
-                    </tr>
-                    <tr>
-                        <td>Row 2, Cell 2</td>
-                        <td>Row 2, Cell 3</td>
-                        <td style=" background: linear-gradient(35deg, red, purple)">
-                            <select>
-                                <option selected value="0">Pure CSS Select</option>
-                                <option value="1">No Wrapper</option>
-                                <option value="2">No JS</option>
-                                <option value="3">Nice!</option>
-                              </select>
-                              
-                              <br>
-                              <br>
-                              Normalize Option:
-                              <br>
-                              <label class="toggle">
-                            <input class="toggle-checkbox" type="checkbox" checked>
-                            <div class="toggle-switch"></div>
-                            <span class="toggle-label"></span>
-                          </label>
-                        </td>
-                                     <td>Row 1, Cell 3</td>
-                        <td>Row 1, Cell 3</td>
-                        <td>   <span class="jwt-token">
-                            eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1NTU1IiwiaWF0IjoxNjk2Mjk4NDQxLCJleHAiOjE2OTYzODQ4NDF9.B_ybwZbKAJAr80GPF7UUVg0G8QECJKKby2IIkaRjj12mf2ZIcHkrlVG-yPHeuxCt8mj-ZaONYF24sC-Dl-tpxw
-                        </span></td>
-
-                        <td> 
-                            <button class="copy-token-btn orange-add-button">Copy Token</button>
-                            <br>
-                            <br>
-                             <button type="submit" class=" grass-green-add-button" @click="SubmitAnswer">Regenerate Token</button>
-                             <br>
-                             <br>
-                             <button type="submit" class=" ocean-blue-edit-button" @click="SubmitAnswer">Update Device</button>
-                            </td>
-                             <td>
-                                <p>Current Value: </p>
-                                <div class="lamp-container">
-                                              <div class="lamp">
-                                                <div class="bit on"></div>
-                                                <div class="bit off"></div>
-                                              </div>
-                                </div>
-                            </td>
-
-                    </tr>
-                    <tr>
-                        <td>Row 3, Cell 2</td>
-                        <td>Row 3, Cell 3</td>
-                        <td style=" background: linear-gradient(35deg, red, purple)">
-                            <select>
-                                <option selected value="0">Pure CSS Select</option>
-                                <option value="1">No Wrapper</option>
-                                <option value="2">No JS</option>
-                                <option value="3">Nice!</option>
-                              </select>
-                              
-                              <br>
-                              <br>
-                              Normalize Option:
-                              <br>
-                              <label class="toggle">
-                            <input class="toggle-checkbox" type="checkbox" checked>
-                            <div class="toggle-switch"></div>
-                            <span class="toggle-label"></span>
-                          </label>
-                        </td>                        <td>Row 1, Cell 3</td>
-                        <td>Row 1, Cell 3</td>
-                        <td>   <span class="jwt-token">
-                            eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1NTU1IiwiaWF0IjoxNjk2Mjk4NDQxLCJleHAiOjE2OTYzODQ4NDF9.B_ybwZbKAJAr80GPF7UUVg0G8QECJKKby2IIkaRjj12mf2ZIcHkrlVG-yPHeuxCt8mj-ZaONYF24sC-Dl-tpxw
-                        </span></td>
-
-                        <td>   <button class="copy-token-btn orange-add-button">Copy Token</button>
-                            <br>
-                            <br>
-                            <button type="submit" class=" grass-green-add-button" @click="SubmitAnswer">Regenerate Token</button>
-                        <br>
-                        <br>
-                        <button type="submit" class=" ocean-blue-edit-button" @click="SubmitAnswer">Update Device</button>
-                    </td>
-                            <td> 
-                                <p>Current Value: </p>
-
-                                <div class="lamp-container">
-                                <div class="lamp">
-                                  <div class="bit on"></div>
-                                  <div class="bit off"></div>
-                                </div>
-                  </div>
-                
-                </td>
-                    </tr>
-                </table>
-
-             
-            </div>
 
           
         
@@ -532,7 +656,148 @@ background-color: #00416A; /* Use a darker shade of ocean blue on click */
          
         </main>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
     <script>
+      function addDevice() {
+    var deviceName = document.getElementById('newDeviceName').value;
+
+    // Create a new row
+    var newRow = document.createElement('tr');
+
+    // Create and append cells for the row
+    var nameCell = document.createElement('td');
+    nameCell.textContent = deviceName;
+    newRow.appendChild(nameCell);
+
+    var actionsCell = document.createElement('td');
+    actionsCell.innerHTML = `
+        <button class="red-add-button">X</button>
+    `;
+    newRow.appendChild(actionsCell);
+
+    // Add the new row to the table
+    document.getElementById('deviceTable').appendChild(newRow);
+
+    // Clear the input field
+    document.getElementById('newDeviceName').value = '';
+}
+
+function DeleteButtonInfo(button) {
+    var value = button.value;
+    var id = button.id;
+    
+    alert("Value: " + value + "\nID: " + id);
+    
+    // Assuming button is inside a <td> element
+    var tr = button.closest('tr');
+    tr.remove(); // Remove the entire <tr> element
+}
+
+
+function alertButtonInfo(button) {
+    var value = button.value;
+    var id = button.id;
+    
+    alert("Value: " + value + "\nID: " +id );
+}
+
+
+function getPageNumber(button) {
+  
+  var pageNumber = button.innerText;
+  var token = sessionStorage.getItem('loginSession'); // Get the token from local storage
+  console.log(token);
+  axios.get('http://localhost:8787/dataTable/' + pageNumber, {
+    params: {
+      token: token
+    }
+  })
+  .then(response => {
+    // Handle the response data
+    console.log(response.data);
+    //console.log(JSON.stringify(response.data, null, 2));
+    //var jsonData = JSON.stringify(response.data, null, 2);
+
+      // Get the reference to the table
+      // Get a reference to the table with a specific id (replace 'yourTableId' with your actual id)
+var table = document.getElementById('IoTManagemetnDevice');
+
+// Get all the rows in the table
+var rows = table.querySelectorAll('tr');
+
+// Iterate over the rows and remove them
+rows.forEach(function(row) {
+  row.remove();
+});
+
+//After remove all then add all
+// Get a reference to your table
+    // Assuming jsonData is your JSON array of objects
+    var jsonData = response.data;
+
+    try {
+
+      //var table3 = window.document.getElementById('IoTManagementDevice');
+   // console.log(table3);
+
+// Create a new table element
+//var table3 = document.createElement('IoTManagementDevice');
+// Find a <table> element with id="myTable":
+//console.log(table3);
+ // var x=document.getElementById('IoTManagementDevice').insertRow(0);
+//var y = x.insertCell(0);
+//var z = x.insertCell(1);
+//y.innerHTML="New Cell1";
+// z.innerHTML="New Cell2";
+var table = document.getElementsByTagName('table')[2]; // Assuming this is the table you want to modify
+var counter = 0;
+
+jsonData.forEach(function(device) {
+    // Create a new row
+    var newRow = table.insertRow(0);
+
+    // Create cells in the row
+    var cell1 = newRow.insertCell(0);
+    var cell2 = newRow.insertCell(1);
+    var cell3 = newRow.insertCell(2);
+
+    // Increment the counter for each device
+    counter++;
+
+    // Add values to the cells
+    cell1.innerHTML = device["id"];
+    cell2.innerHTML = device["description"] ;
+    cell3.innerHTML = device["high"] ;
+});
+
+
+
+    // Iterate through the JSON data and add rows to the table
+
+} catch (error) {
+    console.error('An error occurred:', error);
+}
+
+
+// Remove all
+
+// Assuming jsonData is your JSON array of objects
+var jsonData = response.data;
+
+// Get a reference to your table
+
+// Iterate through the JSON data and add rows to the table
+
+
+
+  })
+  .catch(error => {
+    // Handle errors
+    console.error(error);
+  });
+}
+
 //WebSocket
 	// Vue.js app
 var app = new Vue({
@@ -543,9 +808,111 @@ var app = new Vue({
     latestMessage: '',
     errorMessage: '',
     loginSession: '',
+    inputValue: '',
+    messageToSend: '',
+    deviceName: '',
+    inputValueSubscribe: '',
+                description: '',
+                high: '',
+                low: '',
+                credentialToken: '',
     ws: null, // Added the ws property to store the WebSocket instance
   },
   methods: {
+    subscribeToTopic(button) {
+      // Access the value from this.inputValueSubscribe and use it to subscribe
+      const topic = this.inputValueSubscribe;
+      const textareaContent = document.getElementById('user123').value;
+      alert("Topic : " + topic + " Content:" + textareaContent);
+      this.loginSession = sessionStorage.getItem('loginSession');
+      
+      /*
+
+
+
+      */
+
+
+      var table = document.getElementById('MQTTTopicTable'); // Replace 'yourTableId' with the actual ID of your table
+var tableBody = table.querySelector('tbody'); // Get the table body
+    var newRow = document.createElement('tr'); // Create a new row
+
+    // Create and append cells with content (customize as needed)
+    var cell1 = document.createElement('td');
+    cell1.textContent = 'New ID'; // Customize this content
+    newRow.appendChild(cell1);
+
+    var cell2 = document.createElement('td');
+    cell2.textContent = topic; // Customize this content
+    newRow.appendChild(cell2);
+
+    var cell3 = document.createElement('td');
+    cell3.innerHTML = `
+        <button class="red-add-button" onclick="DeleteButtonInfo(this)">X</button>
+    `;
+    newRow.appendChild(cell3);
+
+    tableBody.appendChild(newRow); // Append the new row to the table body
+    //
+      
+      var data = JSON.stringify({
+        'operation': 'MQTTSubscribe',
+        'content':  textareaContent,
+        'user': this.loginSession,
+        'topic': topic,
+        'session': this.latestMessage
+      });
+      //this.ws.send(data);
+      axios.post('http://localhost:8787/subscribeMQTT', data, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+      .then(function (response) {
+        console.log('Success:', response);
+      })
+      .catch(function (error) {
+        console.error('Error:', error);
+      });
+      // Perform your MQTT subscription logic here using the topic value
+    },
+    submitForm() {
+            this.loginSession = sessionStorage.getItem('loginSession');
+
+            const formData = {
+                user: this.loginSession,
+                name: this.deviceName,
+                description: this.description,
+                high: this.high,
+                low: this.low,
+                credential_token: this.credentialToken
+            };
+
+            // Assuming you have a function to send the data to your backend
+            // For example:
+           axios.post('http://localhost:8787/api/devices/create', formData)
+             .then(response => {
+                   alert('Device created successfully!');
+                   window.location.reload(); // Refresh the page
+
+                  })
+             .catch(error => console.error('Error:', error));
+            
+            alert('Form submitted!');
+            this.resetForm();
+        },
+        getPageNumber(pageNumber) {
+          console.log('Page Number:', pageNumber);
+          // Add any other actions you want to perform with the pageNumber here.
+        },
+        resetForm() {
+                    this.deviceName = '';
+                    this.description = '';
+                    this.high = '';
+                    this.low = '';
+                    this.credentialToken = '';
+                },
+
     connect() {
       this.ws = new WebSocket('ws://localhost:8787/user');
       this.ws.onmessage = this.handleMessage;
@@ -562,6 +929,7 @@ var app = new Vue({
       if (this.ws) {
         this.ws.close();
       }
+      this.latestMessage = "";
       this.connected = false;
       console.log("WebSocket is disconnected");
     },
@@ -572,20 +940,44 @@ var app = new Vue({
     sendData() {
       this.loginSession = sessionStorage.getItem('loginSession');
       var data = JSON.stringify({
-        'operation': 'Search',
+        'operation': 'MQTTPublish',
         'content': this.user,
         'user': this.loginSession,
+        'topic': this.inputValue,
         'session': this.latestMessage
       });
       this.ws.send(data);
     },
+    sendMessage() {
+        //if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+          //this.socket.send(this.messageToSend);
+          this.loginSession = sessionStorage.getItem('loginSession');
+          var data = JSON.stringify({
+            'operation': 'MQTTSubscribe',
+            'content': "",
+            'user': this.loginSession,
+            'topic': this.this.messageToSend,
+            'session': this.latestMessage
+          });
+          this.ws.send(data);
+          this.messageToSend = '';
+        //}
+    },
     handleMessage(event) {
-      this.latestMessage = event.data;
+      if (event.data.startsWith('{')) {
+            //alert("The data starts with '{'");
+            document.getElementById('user123').value += event.data + '\n';
+
+        } else {
+          this.latestMessage = event.data;
+        }
+       
     },
     handleError(event) {
       this.errorMessage = 'WebSocket error occurred: ' + event.message;
       console.error(this.errorMessage);
-    }
+    },
+
   },
   mounted() {
     // Retrieve loginSession from sessionStorage
