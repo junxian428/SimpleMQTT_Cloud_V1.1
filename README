@@ -1,3 +1,46 @@
+HIGHLIGHT
+
+1. MQTT Subscriber
+
+2. MQTT Publisher
+
+3. Login Feature
+
+4. WebSocket 
+
+5. Create and Read Device
+
+6. Can Subscribe Topic
+
+7. Pagination
+
+What havent implement?
+
+1. Third Party API integration
+
+-> Many-to-many  instead of one-to-one
+
+2. UI/ UX improvement
+
+3. MQTT Topic Redirect
+
+4. Unsubscribe Topic (But endpoint done just frontend havent)
+
+5. MQTT Topic Linked Bridge to Table Devices
+
+6. Topic SECURITY
+
+7. Account SECURITY
+
+8. Graph 
+
+9. Optimization
+
+10. MQTTS protocol
+
+11. SSL issue
+
+
 CREATE TABLE user_table (
     id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(255) UNIQUE NOT NULL,
@@ -82,3 +125,5 @@ CREATE TABLE user_topics (
 
 INSERT INTO user_topics (id, user_id,topic_name) VALUES (2,2, "pressure");
 INSERT INTO user_topics (id, user_id,topic_name) VALUES (3,2, "flowrate");
+
+

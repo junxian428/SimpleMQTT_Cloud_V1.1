@@ -3,10 +3,12 @@ package com.example.iotcloudplc.Mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.example.iotcloudplc.Entity.IoTDevice;
 
@@ -72,7 +74,22 @@ List<Map<String, Object>> returnAllDeviceBasedOnTopics(@Param("token") String to
 
         //List<String> getTopicsByToken(String token);
 
+@Delete("DELETE FROM iot_device WHERE id = #{id}")
+void deleteIoTDeviceById(@Param("id") int id);
 
+
+@Update("UPDATE iot_device " +
+        "SET name = #{name}, " +
+        "    description = #{description}, " +
+        "    high = #{high}, " +
+        "    low = #{low}, " +
+        "    credential_token = #{credential_token}, " +
+        "    userid = #{userid} " +
+        "WHERE id = #{id}")
+void updateIoTDevice(IoTDevice device);
+
+@Delete("DELETE FROM iot_device WHERE credential_token = #{credentialToken}")
+void deleteIoTDeviceByCredentialToken(@Param("credentialToken") String credentialToken);
 
 }
  

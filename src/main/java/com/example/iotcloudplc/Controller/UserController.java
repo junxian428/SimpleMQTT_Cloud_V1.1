@@ -5,10 +5,14 @@ import java.util.List;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,6 +61,16 @@ public class UserController {
     }
 
 
+    @DeleteMapping("/deleteByCredentialToken/{credentialToken}")
+    public ResponseEntity<String> deleteIoTDeviceByCredentialToken(@PathVariable String credentialToken) {
+        try {
+            usermapper.deleteIoTDeviceByCredentialToken(credentialToken);
+            return new ResponseEntity<>("Device deleted successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error deleting device: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
        @PostMapping("/unsubscribe")
     public String unsubscribe(@RequestParam String topic) throws MqttException {
@@ -85,6 +99,22 @@ public String subscribeMQTT(@RequestBody SubscribeRequest request) {
 
     }
 }
+
+
+ @DeleteMapping("/delete/device/{id}")
+    public ResponseEntity<String> deleteIoTDevice(@PathVariable int id) {
+        try{
+            
+            usermapper.deleteIoTDeviceById(id);
+                    return ResponseEntity.ok("IoT device deleted successfully");
+
+        }catch(Exception ex){
+            return ResponseEntity.ok("Error message: " + ex);
+
+        }
+    }
+
+
 
     @GetMapping("/dataTable/{variable}")
     public List<IoTDevice> data(@PathVariable String variable , @RequestParam String token){

@@ -491,6 +491,7 @@ background-color: #00416A; /* Use a darker shade of ocean blue on click */
                         <br>
                         <p>Received message from topic</p>
                         <textarea id="user123" style="height:150px; width:100%;" readonly></textarea>
+                        <button onclick="clearTextarea()" class="red-button">Clear</button>
                         <br>
                         <h3>Subscribed Topics:</h3>
                         
@@ -529,7 +530,29 @@ background-color: #00416A; /* Use a darker shade of ocean blue on click */
                         <br>
                         <br>
                         <br>
+                        <li style="font-size: 15px; color:black;">IoT Topic Redirect & Link to IoT Devices [Link Bridge]</li>
+                        
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br><br>
+                        <br>
+                        <li style="font-size: 15px; color:black;">External API</li>
+                        <h3>WhatsAPP API</h3>
+                        <br><br>
+                        <br>
+                        <h3>Telegram API</h3>
+                        <input type="text" id="telegramInput" placeholder="Enter text...">
+                        <button id="saveButton" class=" grass-green-add-button">Save</button>
+                        <br>
 
+                        <br>
+                        <br> <br>
+                        <br> <br>
+                        <br>
                         <li style="font-size: 15px; color:black;">Manage IoT Devices</li>
                         <br>
                         <div style="background-color: #007BAC;">
@@ -561,15 +584,7 @@ background-color: #00416A; /* Use a darker shade of ocean blue on click */
                         </div>
                         
                         
-                        <br><br>
-                        <br>
-                        <h3>WhatsAPP API</h3>
-                        <br><br>
-                        <br>
-                        <h3>Telegram API</h3>
-                        <br><br>
-                        <br>
-
+                    
                         <h2>IoT Device & Alarm Management</h2>
                         <div style="overflow-x:auto;">
                         <table id="IoTManagemetnDevice">
@@ -584,7 +599,7 @@ background-color: #00416A; /* Use a darker shade of ocean blue on click */
                                 <th style="background-color: black; color: white;">Status</th>
                             </tr>
                               <!-- Iterate through the devices -->
-                    <tr th:each="device : ${devices}">
+                              <tr th:each="device : ${devices}" th:id="${device.credentialToken}">
                                 <td th:text="${device.deviceName}"></td>
                                 <td th:text="${device.description}"></td>
                                 <td th:text="${device.triggerSelection}"></td>
@@ -602,7 +617,8 @@ background-color: #00416A; /* Use a darker shade of ocean blue on click */
                                    <button type="submit" class=" ocean-blue-edit-button" >Update Device</button>
                                    <br>
                                    <br>
-                                   <button class="red-button" @click="deleteDevice(device.id)">Delete Device</button>        
+                                   <button class="red-button" onclick="deleteDevice(this)">Delete Device</button>
+                                   
                                 </td>
                                 <td>  
                                   <!--- <span th:if="${device.Status == 'Ok'}" class="green-led"></span><label  th:if="${device.Status == 'Ok'}">Online</label>
@@ -659,47 +675,92 @@ background-color: #00416A; /* Use a darker shade of ocean blue on click */
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     
     <script>
+        function deleteDevice(button) {
+          var row = button.parentNode.parentNode; // Get the parent <tr> element
+    var rowId = row.id; // Get the ID of the current row
+    alert("Deleting row with ID: " + rowId); // Alert the ID before deletion
+    row.parentNode.removeChild(row); // Remove the row from the DOM
+    const credentialToken = rowId; // Replace with the actual credential token
+
+fetch('http://localhost:8787/deleteByCredentialToken/' + credentialToken, {
+    method: 'DELETE',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json(); // If you expect a JSON response, otherwise use response.text() or response.blob()
+})
+.then(data => {
+    console.log('Success:', data);
+})
+.catch(error => {
+    console.error('Error:', error);
+});
+
+    }
+
+
+      document.getElementById("saveButton").addEventListener("click", function() {
+    var telegramText = document.getElementById("telegramInput").value;
+    
+    // Do something with the telegramText, such as saving it to a variable or sending it to a server
+    
+    alert("Text saved: " + telegramText);
+});
+
+
+function clearTextarea() {
+    document.getElementById('user123').value = '';
+}
       function addDevice() {
-    var deviceName = document.getElementById('newDeviceName').value;
+        var deviceName = document.getElementById('newDeviceName').value;
 
-    // Create a new row
-    var newRow = document.createElement('tr');
+// Create a new row
+var newRow = document.createElement('tr');
 
-    // Create and append cells for the row
-    var nameCell = document.createElement('td');
-    nameCell.textContent = deviceName;
-    newRow.appendChild(nameCell);
+// Create and append cells for the row
+var nameCell = document.createElement('td');
+nameCell.textContent = deviceName;
+newRow.appendChild(nameCell);
 
-    var actionsCell = document.createElement('td');
-    actionsCell.innerHTML = `
-        <button class="red-add-button">X</button>
-    `;
-    newRow.appendChild(actionsCell);
+var actionsCell = document.createElement('td');
+var deleteButton = document.createElement('button');
+deleteButton.className = 'red-add-button';
+deleteButton.textContent = 'X';
+deleteButton.id = 'myDeleteButton'; // Add an id
+deleteButton.value = 'delete'; // Add a value
 
-    // Add the new row to the table
-    document.getElementById('deviceTable').appendChild(newRow);
+// Add event listener to the button
+deleteButton.addEventListener('click', function() {
+    // Add your action here
+    alert('Button clicked');
+    // You can perform any action you want here
+    // For example, you can remove the row by using newRow.remove();
+});
 
-    // Clear the input field
-    document.getElementById('newDeviceName').value = '';
+actionsCell.appendChild(deleteButton);
+newRow.appendChild(actionsCell);
+
+// Add the new row to the table
+document.getElementById('deviceTable').appendChild(newRow);
+
+// Clear the input field
+document.getElementById('newDeviceName').value = '';
 }
 
 function DeleteButtonInfo(button) {
+    console.log(button); // Check if the correct object is being passed
     var value = button.value;
     var id = button.id;
     
-    alert("Value: " + value + "\nID: " + id);
-    
-    // Assuming button is inside a <td> element
+    alert("Value: " + value + "\nID: " + id + "\nThis button will unsubscribe topic");
+
     var tr = button.closest('tr');
     tr.remove(); // Remove the entire <tr> element
-}
-
-
-function alertButtonInfo(button) {
-    var value = button.value;
-    var id = button.id;
-    
-    alert("Value: " + value + "\nID: " +id );
 }
 
 
@@ -752,7 +813,7 @@ rows.forEach(function(row) {
 // z.innerHTML="New Cell2";
 var table = document.getElementsByTagName('table')[2]; // Assuming this is the table you want to modify
 var counter = 0;
-var buttonLabels = ["Copy Token", "Button 2", "Button 3"]; // Add labels for your buttons here
+var buttonLabels = ["Copy Token", "Regenerate Token", "Update Device","Delete Device"]; // Add labels for your buttons here
 
 jsonData.forEach(function(device) {
     // Create a new row
@@ -763,6 +824,8 @@ jsonData.forEach(function(device) {
     var cell2 = newRow.insertCell(1);
     var cell3 = newRow.insertCell(2);
     var cell4 = newRow.insertCell(3); // Add a new cell for the button
+    var cell5 = newRow.insertCell(4); // Add a new cell for the button
+    var cell6 = newRow.insertCell(5); // Add a new cell for the button
 
     // Increment the counter for each device
     counter++;
@@ -771,21 +834,90 @@ jsonData.forEach(function(device) {
     cell1.innerHTML = device["id"];
     cell2.innerHTML = device["description"] ;
     cell3.innerHTML = device["high"] ;
+    cell4.innerHTML = device["low"] ;
+    cell5.innerHTML = device["credential_token"] ;
       // Create a button element
     // Loop through button labels and create buttons
     for (var i = 0; i < buttonLabels.length; i++) {
         var button = document.createElement("button");
         button.textContent = buttonLabels[i];
-        button.classList.add("copy-token-btn", "orange-add-button"); // Add classes
+        if(i === 0){
+          button.classList.add("copy-token-btn", "orange-add-button"); // Add classes
+              // 每一行button 有不同 feature 所以我们 detect each
+          // Assign 不同的 button function
+          button.addEventListener("click", function() {
+            // Define what happens when the button is clicked
+            alert("Button Clicked for ID: " + device["id"] + ", Label: " + buttonLabels[i]);
 
+        });
+
+        } else if(i === 1){
+          button.classList.add("copy-token-btn", "grass-green-add-button"); // Add classes
+          button.addEventListener("click", function() {
+            // Define what happens when the button is clicked
+            alert("Button Clicked for ID: " + device["id"] + ", Label: " + buttonLabels[i]);
+
+
+        });
+        } else if (i === 2){
+          
+          // 每一行button 有不同 feature 所以我们 detect each
+          // Assign 不同的 button function
+          button.classList.add("copy-token-btn", "ocean-blue-edit-button"); // Add classes
+          button.addEventListener("click", function() {
+            // Define what happens when the button is clicked
+            alert("Button Clicked for ID: " + device["id"] + ", Label: " + buttonLabels[i]);
+            // Define what happens when the button is clicked
+            var descriptionText = document.querySelector('.description-text');
+            var descriptionInput = document.createElement("input");
+            descriptionInput.type = "text";
+            descriptionInput.value = descriptionValue;
+            descriptionInput.classList.add("description-input");
+
+            descriptionText.parentNode.replaceChild(descriptionInput, descriptionText);
+
+            descriptionInput.addEventListener('blur', function() {
+                descriptionValue = this.value;
+                descriptionText.textContent = this.value;
+            });
+
+        });
+
+        } else if (i === 3){
+
+          // 每一行button 有不同 feature 所以我们 detect each
+          // Assign 不同的 button function
+          button.classList.add("copy-token-btn", "red-button"); // Add classes
         // Add an event listener to the button
         button.addEventListener("click", function() {
             // Define what happens when the button is clicked
             alert("Button Clicked for ID: " + device["id"] + ", Label: " + buttonLabels[i]);
+              // Define what happens when the button is clicked
+              var row = this.parentNode.parentNode; // Get the parent row
+            row.parentNode.removeChild(row); // Remove the row
+
+            axios.delete('http://localhost:8787/delete/device/' + device["id"])
+          .then(function (response) {
+            console.log('Device deleted successfully:', response.data);
+          })
+          .catch(function (error) {
+            console.error('Error deleting device:', error);
+          });
+
+
         });
 
+
+        }else{
+
+        }
+
+
+        cell6.appendChild(document.createElement("br"));
+        cell6.appendChild(document.createElement("br"));
+
         // Append the button to the cell
-        cell4.appendChild(button);
+        cell6.appendChild(button);
     }
     
 });
@@ -958,6 +1090,13 @@ var tableBody = table.querySelector('tbody'); // Get the table body
     },
     sendData() {
       this.loginSession = sessionStorage.getItem('loginSession');
+      var data = this.user;
+
+    // Ensure the content starts with '{'
+    if (!data.startsWith('{')) {
+        alert("Content must start with '{'");
+        return; // Do not proceed further
+    } else{
       var data = JSON.stringify({
         'operation': 'MQTTPublish',
         'content': this.user,
@@ -966,6 +1105,9 @@ var tableBody = table.querySelector('tbody'); // Get the table body
         'session': this.latestMessage
       });
       this.ws.send(data);
+    }
+
+  
     },
     sendMessage() {
         //if (this.socket && this.socket.readyState === WebSocket.OPEN) {
